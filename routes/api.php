@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('movies', MovieController::class);
 //Route::get('/movies', [MovieController::class, 'index']);
 Route::get('/movies-with-ratings', [MovieController::class, 'allWithAvgRating'])->middleware('auth:sanctum', 'abilities:edit-any');
+Route::get('/movies-with-all-ratings', [MovieController::class, 'allRatings'])->middleware('auth:sanctum', 'abilities:edit-any, hoppeldepee');
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users-with-movies', [UserController::class, 'withMovies']);
 Route::get('/user-with-movies/{id}', [UserController::class, 'byIdwithMovies']);

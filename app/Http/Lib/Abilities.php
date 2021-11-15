@@ -2,8 +2,6 @@
 
 
 namespace App\Http\Lib;
-
-
 class Abilities
 {
     public function getAbilities($role) {

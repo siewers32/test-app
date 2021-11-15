@@ -10,15 +10,17 @@ use App\Http\Lib\Abilities;
 
 class AuthController extends Controller
 {
-    public function register(StoreUserRequest $request) {
+    public function register(Abilities $abilities, StoreUserRequest $request) {
         $user = new User;
         $user->name = $request['name'];
         $user->email =$request['email'];
+        $user->role = $request['role'];
         $user->password = Hash::make($request['password']);
         $user->save();
 
         //create token
-        $token = $user->createToken('test-app-token')->plainTextToken;
+        $tokenabilities = $abilities->getAbilities($user->role);
+        $token = $user->createToken('test-app-token', $tokenabilities)->plainTextToken;
         $response = [
             'status'=>true,
             'message'=>'registered successfully!',
@@ -44,8 +46,8 @@ class AuthController extends Controller
                 'message' => 'Bad email/password combination'
             ], 401);
         }
-        $permissions = $abilities->getAbilities($user->role);
-        $token = $user->createToken('test-app-token', $permissions)->plainTextToken;
+        $tokenabilities = $abilities->getAbilities($user->role);
+        $token = $user->createToken('test-app-token', $tokenabilities)->plainTextToken;
 
         $response = [
             'user' => $user,

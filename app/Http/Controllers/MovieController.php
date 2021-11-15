@@ -30,6 +30,10 @@ class MovieController extends Controller
         //return Movie::withAvg('ratings', 'rating')->get()->toJson();
         return new MovieResourceCollection(Movie::withAvg('ratings', 'rating')->paginate(2));
     }
+    function allRatings() {
+        //return Movie::withAvg('ratings', 'rating')->get()->toJson();
+        return new MovieResourceCollection(Movie::with('ratings')->get());
+    }
 
     function showWithAvgRating($id = null) {
         return Movie::withAvg('ratings', 'rating')->get()->toJson();
