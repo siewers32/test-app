@@ -13,7 +13,7 @@ class MovieController extends Controller
     /**
      * Display a listing of the resource.
      *
-     //* @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     function index() {
         //return Movie::all()->toJson();
@@ -25,6 +25,18 @@ class MovieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     function home() {
+        return new MovieResourceCollection(Movie::withAvg('ratings', 'rating')->orderBy('ratings_avg_rating', 'desc')->take(3)->get());
+     }
+
+     function show($order = 'avg') {
+        if ($order == 'title' || $order == 'year') {
+            return new MovieResourceCollection(Movie::withAvg('ratings', 'rating')->orderBy($order, 'asc')->take(9)->get());
+        } else {
+            return new MovieResourceCollection(Movie::withAvg('ratings', 'rating')->orderBy('ratings_avg_rating', 'desc')->take(9)->get());
+        }
+    }
 
     function allWithAvgRating() {
         //return Movie::withAvg('ratings', 'rating')->get()->toJson();
@@ -77,11 +89,11 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        return Movie::withAvg('ratings', 'rating')->where('id',$id)->first()->toJson();
-        //return new MovieResource(Movie::first());
-    }
+    // public function show($id)
+    // {
+    //     return Movie::withAvg('ratings', 'rating')->where('id',$id)->first()->toJson();
+    //     //return new MovieResource(Movie::first());
+    // }
 
     /**
      * Show the form for editing the specified resource.

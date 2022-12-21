@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource('movies', MovieController::class);
+Route::get('/home', [MovieController::class,'home']);
+Route::get('/show/{order?}', [MovieController::class,'show']);
 //Route::get('/movies', [MovieController::class, 'index']);
 Route::get('/movies-with-ratings', [MovieController::class, 'allWithAvgRating'])->middleware('auth:sanctum', 'abilities:edit-any');
 Route::get('/movies-with-all-ratings', [MovieController::class, 'allRatings'])->middleware('auth:sanctum', 'abilities:edit-any, hoppeldepee');
